@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Diagnostik Terpadu (Siswa & Guru)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .tab-active { border-bottom: 3px solid #7e22ce; color: #7e22ce; font-weight: 600; }
+        .tab-inactive { color: #6b7280; font-weight: 500; hover:text-gray-800; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        .badge-locked { filter: grayscale(100%); opacity: 0.5; }
+        .timeline-line { position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; z-index: 0; }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+    <!-- Top Navigation Tabs -->
+    <div class="max-w-6xl mx-auto mb-6 sticky top-0 bg-[#f8fafc] z-50 pt-4">
+        <div class="flex space-x-8 border-b border-gray-200">
+            <button onclick="switchTab('student')" id="tab-student" class="tab-active pb-3 px-2 text-lg transition-colors">
+                Laporan Untuk Siswa
+            </button>
+            <button onclick="switchTab('teacher')" id="tab-teacher" class="tab-inactive pb-3 px-2 text-lg transition-colors">
+                Laporan Untuk Guru
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: STUDENT REPORT (PERSPEKTIF SISWA) -->
+    <!-- ========================================== -->
+    <div id="view-student" class="max-w-6xl mx-auto animate-fade-in">
+        
+        <!-- Student Header -->
+        <div class="bg-gradient-to-r from-purple-700 to-indigo-800 rounded-2xl p-6 text-white mb-6 shadow-lg">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">Hasil Diagnostik Kamu</h1>
+                    <p class="text-purple-100 mt-1">Modul: Mekanika - Hukum Newton pada Bidang Miring</p>
+                </div>
+                <div class="mt-4 md:mt-0 bg-white/10 px-4 py-2 rounded-lg text-right">
+                    <p class="text-xs text-purple-200">Nama Siswa</p>
+                    <p class="font-bold text-lg">Budi Santoso</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left Column: Soal & Jawaban Lengkap -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Full Question Review -->
+                <div class="card p-6">
+                    <div class="flex justify-between items-start mb-4 border-b pb-2">
+                        <h3 class="font-bold text-gray-700 uppercase tracking-wide text-sm">Review Butir Soal #05</h3>
+                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">Jawabanmu Kurang Tepat</span>
+                    </div>
+
+                    <!-- Soal Text -->
+                    <div class="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <p class="text-gray-800 leading-relaxed">
+                            Sebuah balok bermassa \(m\) ditarik ke atas sebuah bidang miring kasar yang membentuk sudut \(\theta\) terhadap horizontal. Balok tersebut bergerak dengan <strong>kecepatan tetap</strong> \(v\). Koefisien gesekan kinetis antara balok dan bidang adalah \(\mu_k\). 
+                            <br><br>
+                            Jika \(F\) adalah gaya tarik sejajar bidang miring dan \(g\) adalah percepatan gravitasi, manakah persamaan hukum Newton yang paling tepat menggambarkan kondisi gerak balok tersebut?
+                        </p>
+                    </div>
+
+                    <!-- Options -->
+                    <div class="grid grid-cols-1 gap-3">
+                        <!-- Option A (Key) -->
+                        <div class="p-3 border rounded-lg hover:bg-green-50 transition-colors flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold mr-3 text-sm">A</div>
+                            <div class="flex-1">\(F = mg \sin\theta + \mu_k mg \cos\theta\)</div>
+                            <span class="text-xs bg-green-600 text-white px-2 py-1 rounded ml-2">Kunci Jawaban</span>
+                        </div>
+
+                        <!-- Option B -->
+                        <div class="p-3 border rounded-lg opacity-60 flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center font-bold mr-3 text-sm">B</div>
+                            <div class="flex-1">\(F = mg \sin\theta\)</div>
+                        </div>
+
+                        <!-- Option C -->
+                        <div class="p-3 border rounded-lg opacity-60 flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center font-bold mr-3 text-sm">C</div>
+                            <div class="flex-1">\(F = mg \cos\theta + \mu_k mg \sin\theta\)</div>
+                        </div>
+
+                        <!-- Option D (Student Selection) -->
+                        <div class="p-3 border-2 border-red-500 bg-red-50 rounded-lg flex items-center shadow-sm">
+                            <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold mr-3 text-sm">D</div>
+                            <div class="flex-1 font-medium text-gray-900">\(F - mg \sin\theta - \mu_k mg \cos\theta = ma\)</div>
+                            <span class="text-xs bg-red-100 text-red-700 font-bold px-2 py-1 rounded ml-2">Jawaban Kamu</span>
+                        </div>
+
+                        <!-- Option E -->
+                        <div class="p-3 border rounded-lg opacity-60 flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center font-bold mr-3 text-sm">E</div>
+                            <div class="flex-1">\(F + mg \sin\theta = \mu_k mg \cos\theta\)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Learning Path (Action Plan) -->
+                <div class="card p-6">
+                    <h3 class="font-bold text-gray-800 mb-6 text-xl">🗺️ Rencana Belajar Personal Kamu</h3>
+                    
+                    <p class="text-gray-600 mb-6 text-sm">
+                        Budi, diagnosa menunjukkan <strong>Logika Matematika</strong> kamu sudah sangat bagus (Level: Advanced), tapi kamu terjebak di <strong>Literasi Soal</strong>. Kita tidak perlu mulai dari belajar menghitung vektor lagi. Fokus kita adalah "Detektif Kata".
+                    </p>
+
+                    <div class="relative pl-4">
+                        <div class="timeline-line"></div>
+                        
+                        <!-- Step 1 -->
+                        <div class="relative z-10 mb-8 pl-6">
+                            <div class="absolute left-0 top-1 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow ring-4 ring-white">1</div>
+                            <h4 class="font-bold text-gray-800">Minggu 1: The Keyword Detective</h4>
+                            <div class="text-sm text-blue-600 font-semibold mb-1">Fokus: Literasi Fisika</div>
+                            <p class="text-sm text-gray-600 mb-2">Jangan kerjakan hitungannya. Cukup baca soal dan stabilo kata kunci yang menentukan rumus.</p>
+                            <div class="bg-blue-50 p-3 rounded text-sm text-gray-700 border border-blue-100">
+                                <strong>Metode Belajar:</strong> Ambil 10 soal fisika bab apa saja. Cari kata: <em>Diam, Konstan, Tepat akan bergerak, Percepatan</em>. Tentukan apakah \(\Sigma F=0\) atau \(\Sigma F=ma\) berdasarkan kata itu saja.
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative z-10 mb-8 pl-6">
+                            <div class="absolute left-0 top-1 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow ring-4 ring-white">2</div>
+                            <h4 class="font-bold text-gray-800">Minggu 2: Translation Mode</h4>
+                            <div class="text-sm text-purple-600 font-semibold mb-1">Fokus: Konsep ke Simbol</div>
+                            <p class="text-sm text-gray-600 mb-2">Mengubah kalimat cerita menjadi "Daftar Variabel".</p>
+                            <div class="bg-purple-50 p-3 rounded text-sm text-gray-700 border border-purple-100">
+                                <strong>Metode Belajar:</strong> Gunakan teknik "Given-Asked". Tulis apa yang diketahui bukan dengan angka, tapi dengan simbol logika. <br>Contoh: "Kecepatan tetap" \(\rightarrow a = 0\).
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative z-10 pl-6">
+                            <div class="absolute left-0 top-1 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm shadow ring-4 ring-white">3</div>
+                            <h4 class="font-bold text-gray-400">Minggu 3: Full Execution</h4>
+                            <div class="text-sm text-gray-400 font-semibold mb-1">Fokus: Integrasi Math & Konsep</div>
+                            <p class="text-sm text-gray-400">Baru di tahap ini kamu boleh mengerjakan hitungan matematika sampai akhir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Badges & Profile -->
+            <div class="space-y-6">
+                
+                <!-- Badge Collection -->
+                <div class="card p-6">
+                    <h3 class="font-bold text-gray-800 mb-4 text-center">🏆 Peringkat Pencapaian</h3>
+                    <div class="space-y-4">
+                        
+                        <!-- Level 1 -->
+                        <div class="flex items-center p-2 bg-green-50 rounded-lg border border-green-200">
+                            <div class="text-2xl mr-3">🌱</div>
+                            <div>
+                                <div class="text-xs font-bold text-green-700 uppercase">Level 1</div>
+                                <div class="font-bold text-gray-800 text-sm">Science Explorer</div>
+                                <div class="text-xs text-gray-500">Paham istilah dasar sains</div>
+                            </div>
+                            <div class="ml-auto text-green-600 text-xl">✓</div>
+                        </div>
+
+                        <!-- Level 2 (Current) -->
+                        <div class="flex items-center p-2 bg-blue-100 rounded-lg border-2 border-blue-500 shadow-sm relative overflow-hidden">
+                            <div class="absolute right-0 top-0 bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-bl">CURRENT</div>
+                            <div class="text-2xl mr-3">🏗️</div>
+                            <div>
+                                <div class="text-xs font-bold text-blue-700 uppercase">Level 2</div>
+                                <div class="font-bold text-gray-800 text-sm">Logic Builder</div>
+                                <div class="text-xs text-gray-600">Logika kuat, perlu ketelitian</div>
+                            </div>
+                        </div>
+
+                        <!-- Level 3 -->
+                        <div class="flex items-center p-2 bg-gray-50 rounded-lg border border-gray-200 badge-locked">
+                            <div class="text-2xl mr-3">🚀</div>
+                            <div>
+                                <div class="text-xs font-bold text-gray-400 uppercase">Level 3</div>
+                                <div class="font-bold text-gray-400 text-sm">Problem Solver</div>
+                                <div class="text-xs text-gray-400">Akurasi tinggi di soal kompleks</div>
+                            </div>
+                        </div>
+
+                        <!-- Level 4 -->
+                        <div class="flex items-center p-2 bg-gray-50 rounded-lg border border-gray-200 badge-locked">
+                            <div class="text-2xl mr-3">👑</div>
+                            <div>
+                                <div class="text-xs font-bold text-gray-400 uppercase">Level 4</div>
+                                <div class="font-bold text-gray-400 text-sm">Physics Master</div>
+                                <div class="text-xs text-gray-400">Bisa mengajarkan ke orang lain</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="text-xs text-gray-500">Selesaikan misi "The Keyword Detective" untuk membuka <strong>Level 3!</strong></p>
+                    </div>
+                </div>
+
+                <!-- Simple Skill Chart -->
+                <div class="card p-6">
+                    <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase">Radar Kompetensi</h3>
+                    <canvas id="studentRadar" height="200"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: TEACHER REPORT (PERSPEKTIF GURU) -->
+    <!-- ========================================== -->
+    <div id="view-teacher" class="max-w-6xl mx-auto hidden animate-fade-in">
+        
+        <!-- Teacher Header -->
+        <div class="bg-white border-l-8 border-emerald-600 rounded-lg p-6 shadow-sm mb-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Laporan Analisis Diagnostik Guru</h1>
+                <p class="text-gray-500 mt-1">Siswa: Budi Santoso | Comparative & Benchmark Analysis</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Status: Intervensi Literasi</span>
+            </div>
+        </div>
+
+        <!-- NEW: MATRIX DIAGNOSTIK SOAL -->
+        <div class="card p-6 mb-8 border-t-4 border-indigo-500">
+            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                Pedoman Diagnosa Pilihan Jawaban (Item Analysis Key)
+            </h3>
+            <p class="text-sm text-gray-600 mb-4">Gunakan tabel ini untuk memahami pola pikir siswa berdasarkan jawaban yang mereka pilih pada soal Mekanika #05.</p>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700">
+                            <th class="border p-3 text-center w-16">Opsi</th>
+                            <th class="border p-3 text-left">Deskripsi Jawaban</th>
+                            <th class="border p-3 text-left w-1/4">Diagnosa Kompetensi</th>
+                            <th class="border p-3 text-left w-1/3">Implikasi Pembelajaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Option A -->
+                        <tr class="bg-green-50">
+                            <td class="border p-3 text-center font-bold text-green-700">A</td>
+                            <td class="border p-3 font-mono text-xs">\(F = mg \sin\theta + \mu_k mg \cos\theta\)</td>
+                            <td class="border p-3 text-green-700 font-semibold">Tuntas (Correct)</td>
+                            <td class="border p-3 text-gray-600">Siswa paham konsep (Hk Newton I), literasi baik, dan matematika kuat.</td>
+                        </tr>
+                        <!-- Option B -->
+                        <tr>
+                            <td class="border p-3 text-center font-bold text-gray-500">B</td>
+                            <td class="border p-3 font-mono text-xs">\(F = mg \sin\theta\)</td>
+                            <td class="border p-3 text-red-600"><span class="font-bold">Miskonsepsi Gaya Gesek</span><br><span class="text-xs text-gray-500">Neglect of Friction</span></td>
+                            <td class="border p-3 text-gray-600">Review kembali konsep "Bidang Kasar". Siswa mungkin lupa memasukkan \(f_k\) atau menganggap licin.</td>
+                        </tr>
+                        <!-- Option C -->
+                        <tr>
+                            <td class="border p-3 text-center font-bold text-gray-500">C</td>
+                            <td class="border p-3 font-mono text-xs">\(F = mg \cos\theta + \mu_k mg \sin\theta\)</td>
+                            <td class="border p-3 text-yellow-600"><span class="font-bold">Kelemahan Matematika</span><br><span class="text-xs text-gray-500">Trigonometry Swap Error</span></td>
+                            <td class="border p-3 text-gray-600">Konsep Fisika benar, tapi lemah di Geometri. Lakukan drilling penguraian vektor (Sin vs Cos pada miring).</td>
+                        </tr>
+                        <!-- Option D (Dipilih Siswa) -->
+                        <tr class="bg-red-50 border-2 border-red-200">
+                            <td class="border p-3 text-center font-bold text-red-600">D</td>
+                            <td class="border p-3 font-mono text-xs">\(F - \dots = ma\)</td>
+                            <td class="border p-3 text-red-600"><span class="font-bold">Kelemahan Literasi (Kritis)</span><br><span class="text-xs text-gray-500">Missed "Constant Speed" Keyword</span></td>
+                            <td class="border p-3 text-gray-600">Siswa ini (Budi) berasumsi benda berakselerasi. <strong class="text-red-700">Tindakan:</strong> Latihan *scanning* kata kunci soal cerita.</td>
+                        </tr>
+                        <!-- Option E -->
+                        <tr>
+                            <td class="border p-3 text-center font-bold text-gray-500">E</td>
+                            <td class="border p-3 font-mono text-xs">\(F + mg \sin\theta = \dots\)</td>
+                            <td class="border p-3 text-gray-700"><span class="font-bold">Miskonsepsi Vektor</span><br><span class="text-xs text-gray-500">Sign/Direction Error</span></td>
+                            <td class="border p-3 text-gray-600">Siswa gagal menentukan arah gaya berat yang sejajar bidang. Perlu remedial Diagram Benda Bebas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            
+            <!-- Chart: Benchmark Analysis -->
+            <div class="card p-6">
+                <h3 class="font-bold text-gray-800 mb-2">Benchmark: Budi vs Populasi</h3>
+                <p class="text-sm text-gray-500 mb-4">Perbandingan skor sub-kompetensi Budi terhadap rata-rata Kelas.</p>
+                <div class="h-64">
+                    <canvas id="benchmarkChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Distractor Analysis for Teacher -->
+            <div class="card p-6">
+                <h3 class="font-bold text-gray-800 mb-2">Mengapa Budi memilih Opsi D?</h3>
+                <p class="text-sm text-gray-500 mb-4">Analisis spesifik kasus siswa ini.</p>
+                
+                <div class="space-y-4">
+                    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded uppercase mr-2">Root Cause</span>
+                            <span class="font-semibold text-gray-800">Reading Glitch</span>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            Budi secara matematis menyusun persamaan Hukum Newton II (\(\Sigma F = ma\)) dengan sempurna. Artinya, dia <strong>bisa fisika</strong>. Kesalahannya murni karena dia membaca "Kecepatan Tetap" sebagai informasi latar belakang, bukan sebagai <em>constraint</em> matematika (\(a=0\)).
+                        </p>
+                    </div>
+                    
+                    <div class="p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                        <div class="text-xs font-bold text-blue-600 uppercase mb-1">Rekomendasi Personal Guru</div>
+                        <p class="text-sm text-gray-700 font-medium">
+                            "Jangan ajari Budi rumus lagi. Ajari dia melingkari kata kunci dengan stabilo sebelum menyentuh kalkulator."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Recommendations (RESTORED & DETAILED) -->
+        <div class="card p-6 border-t-4 border-emerald-600">
+            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                Rekomendasi Pedagogis (Alur Tindakan Guru)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Strategy 1 -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                    <h4 class="font-bold text-gray-700 text-sm flex items-center mb-2">
+                        <span class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs mr-2 font-bold">1</span>
+                        Intervensi Spesifik
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        Berikan Budi 5 soal yang <strong>hanya meminta menentukan \(\Sigma F=0\) atau \(\Sigma F=ma\)</strong> tanpa perlu menghitung angka. Fokuskan pada identifikasi kondisi gerak.
+                    </p>
+                    <div class="mt-2 text-xs text-emerald-600 font-semibold bg-emerald-50 inline-block px-2 py-1 rounded">Target: Kepekaan Konteks</div>
+                </div>
+
+                <!-- Strategy 2 -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                    <h4 class="font-bold text-gray-700 text-sm flex items-center mb-2">
+                        <span class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs mr-2 font-bold">2</span>
+                        Scaffolding Literasi
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        Ajarkan teknik <em>highlighting</em>. Wajibkan siswa menandai kata kunci penunjuk keadaan gerak (diam, GLB, GLBB, tepat akan bergerak) dengan stabilo sebelum menulis rumus apapun.
+                    </p>
+                    <div class="mt-2 text-xs text-emerald-600 font-semibold bg-emerald-50 inline-block px-2 py-1 rounded">Target: Membaca Kritis</div>
+                </div>
+
+                <!-- Strategy 3 -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                    <h4 class="font-bold text-gray-700 text-sm flex items-center mb-2">
+                        <span class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs mr-2 font-bold">3</span>
+                        Peer Tutoring
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                        Pasangkan Budi dengan siswa yang teliti (Literasi tinggi) namun lemah di Math. Mereka bisa saling melengkapi: Budi membantu struktur persamaan, temannya membantu membedah soal cerita.
+                    </p>
+                    <div class="mt-2 text-xs text-emerald-600 font-semibold bg-emerald-50 inline-block px-2 py-1 rounded">Target: Kolaborasi</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(role) {
+            const studentView = document.getElementById('view-student');
+            const teacherView = document.getElementById('view-teacher');
+            const studentTab = document.getElementById('tab-student');
+            const teacherTab = document.getElementById('tab-teacher');
+
+            if (role === 'student') {
+                studentView.classList.remove('hidden');
+                teacherView.classList.add('hidden');
+                
+                studentTab.classList.add('tab-active');
+                studentTab.classList.remove('tab-inactive');
+                teacherTab.classList.add('tab-inactive');
+                teacherTab.classList.remove('tab-active');
+            } else {
+                studentView.classList.add('hidden');
+                teacherView.classList.remove('hidden');
+                
+                teacherTab.classList.add('tab-active');
+                teacherTab.classList.remove('tab-inactive');
+                studentTab.classList.add('tab-inactive');
+                studentTab.classList.remove('tab-active');
+            }
+        }
+
+        // Student Radar Chart
+        const radarCtx = document.getElementById('studentRadar').getContext('2d');
+        const studentRadar = new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Logika', 'Matematika', 'Literasi', 'Konsep'],
+                datasets: [{
+                    label: 'Kemampuan Kamu',
+                    data: [85, 80, 40, 50],
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(59, 130, 246)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: { display: false },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Teacher Benchmark Chart
+        const ctx = document.getElementById('benchmarkChart').getContext('2d');
+        const benchmarkChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Logika', 'Matematika', 'Literasi', 'Konsep'],
+                datasets: [
+                    {
+                        label: 'Siswa (Budi)',
+                        data: [85, 80, 40, 50],
+                        backgroundColor: 'rgba(126, 34, 206, 0.8)',
+                        borderColor: 'rgba(126, 34, 206, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Rata-rata Kelas',
+                        data: [60, 65, 70, 65],
+                        backgroundColor: 'rgba(209, 213, 219, 0.8)',
+                        borderColor: 'rgba(209, 213, 219, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
