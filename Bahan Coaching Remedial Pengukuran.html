@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahan Ajar Coaching Fisika - Pengukuran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS reset and typography */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        /* A4 Page Setup */
+        @page {
+            size: A4 portrait;
+            /* Margins as requested: Top 3.54cm, Bottom 2cm, Left 2.54cm, Right 2.54cm */
+            margin: 3.54cm 2.54cm 2cm 2.54cm;
+        }
+
+        .page {
+            background-color: white;
+            width: 21cm;
+            min-height: 29.7cm; /* A4 height */
+            margin: 1cm auto; /* Center page in web view */
+            box-sizing: border-box;
+            /* Applying margins internally for web view to simulate print */
+            padding: 3.54cm 2.54cm 2cm 2.54cm;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Print Specific Styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                padding: 0;
+                width: 100%;
+                min-height: 100%;
+                /* Page break management */
+                page-break-after: always;
+            }
+            .page:last-child {
+                page-break-after: avoid;
+            }
+            .header {
+                /* In print, position absolutely to the top of the physical page */
+                top: 0; 
+                left: 0;
+                width: 100%;
+                height: 3.54cm;
+            }
+        }
+
+        /* Header Setup */
+        .header {
+            position: absolute;
+            /* Moving the header to the very top edge */
+            top: 0; 
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-color: #f0faff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header img {
+            position: absolute;
+            left: 50px;
+            height: 70px;
+            width: auto;
+            display: block;
+        }
+        
+        .header-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26pt;
+            font-weight: 700;
+            color: #0099ba;
+            margin: 0;
+        }
+
+        /* Footer Setup */
+        .footer {
+            position: absolute;
+            bottom: 1.27cm;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Typography Styles */
+        h1, h2, h3 {
+            color: #1a5276;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 20pt; text-align: center; border-bottom: 2px solid #1a5276; padding-bottom: 5px; }
+        h2 { font-size: 16pt; }
+        h3 { font-size: 14pt; }
+        p { font-size: 11pt; line-height: 1.6; margin-bottom: 1em; text-align: justify; }
+        
+        /* Lists */
+        ul, ol { margin-bottom: 1em; padding-left: 20px; font-size: 11pt; line-height: 1.6; }
+        li { margin-bottom: 0.5em; }
+
+        /* Tables for layout or data */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1.5em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 11pt; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+
+        /* Image Styling within content */
+        .content-img {
+            display: block;
+            margin: 1em auto;
+            max-width: 80%;
+            height: auto;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Math and Formulas */
+        .formula {
+            display: block;
+            text-align: center;
+            font-style: italic;
+            font-size: 12pt;
+            margin: 1em 0;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Emphasized text */
+        .highlight { font-weight: bold; color: #c0392b; }
+        
+        /* Options layout for multiple choice */
+        .options {
+            list-style-type: upper-alpha;
+            margin-top: 0.5em;
+        }
+        .options li {
+            margin-bottom: 0.3em;
+        }
+
+        /* Solution block */
+        .pembahasan {
+            background-color: #e8f8f5;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .pembahasan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <!-- Header -->
+        <div class="header">
+            <img src="logo-header-ba.png" alt="Brain Academy Logo">
+            <div class="header-title">Coaching UKRG Fisika SMA</div>
+        </div>
+
+        <div class="content">
+            <h2>A. Jangka Sorong</h2>
+            <p>Jangka sorong adalah alat ukur panjang yang memiliki ketelitian lebih tinggi dibandingkan penggaris biasa. Alat ini sangat baik digunakan untuk mengukur diameter luar, diameter dalam, maupun kedalaman suatu benda.</p>
+
+            <h3>1. Komponen Utama dan Pembacaan</h3>
+            <p>Jangka sorong memiliki dua skala utama: <strong>Skala Utama (SU)</strong> yang tetap, dan <strong>Skala Nonius (SN)</strong> atau Vernier yang dapat digeser.</p>
+            <ul>
+                <li><strong>Skala Utama (SU):</strong> Nilainya dibaca pada angka di skala utama yang berada tepat sebelum angka nol (0) pada skala nonius. Biasanya dalam satuan cm.</li>
+                <li><strong>Skala Nonius (SN):</strong> Nilainya ditentukan dengan mencari garis pada skala nonius yang <strong>berimpit (membentuk garis lurus)</strong> dengan salah satu garis pada skala utama.</li>
+            </ul>
+
+            <h3>2. Nilai Skala Terkecil (NST)</h3>
+            <p>NST adalah nilai jarak antara dua goresan berdekatan pada skala alat ukur. NST sangat menentukan ketelitian alat ukur.</p>
+            <ul>
+                <li>NST Jangka Sorong ditentukan oleh jumlah garis pada skala noniusnya.</li>
+                <li>Misalnya, jika pada skala nonius terdapat 10 skala (dari 0 sampai 10), maka:</li>
+                <li>Panjang 10 skala nonius = 9 skala utama (biasanya 9 mm).</li>
+                <li>Maka, 1 skala nonius = 0,9 mm.</li>
+                <li>NST = 1 skala utama - 1 skala nonius = 1 mm - 0,9 mm = <strong>0,1 mm</strong> atau <strong>0,01 cm</strong>.</li>
+            <li><span class="highlight">Catatan Penting:</span> Beberapa jangka sorong modern memiliki ketelitian 0,05 mm atau 0,02 mm tergantung jumlah skala noniusnya (misal 20 skala atau 50 skala). Namun untuk standar soal SMA umum, NST yang sering digunakan adalah 0,1 mm (0,01 cm).</li>
+        </ul>
+
+        <h3>3. Ketidakpastian Mutlak</h3>
+        <p>Untuk pengukuran tunggal (pengukuran yang hanya dilakukan satu kali), nilai ketidakpastian mutlak ditetapkan sebesar <strong>setengah dari Nilai Skala Terkecil (NST)</strong> alat ukur tersebut.</p>
+        <div class="formula">
+                &Delta;x = &frac12; &times; NST
+            </div>
+            <p>Jika NST jangka sorong = 0,01 cm, maka: <strong>&Delta;x = &frac12; &times; 0,01 cm = 0,005 cm</strong>.</p>
+
+            <h3>4. Penulisan Laporan Hasil Pengukuran</h3>
+            <p>Hasil pengukuran (x) dituliskan beserta ketidakpastiannya dengan format:</p>
+            <div class="formula">
+                L = (x<sub>0</sub> &plusmn; &Delta;x) satuan
+            </div>
+            <p>Di mana <strong>x<sub>0</sub> = SU + (SN &times; NST)</strong>.</p>
+            <p>Jumlah desimal pada hasil pengukuran (x<sub>0</sub>) harus sama dengan jumlah desimal pada ketidakpastian mutlaknya (&Delta;x).</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div style="font-size:9pt; text-align:center; font-family: 'Montserrat', sans-serif;"><strong>Copyright &copy; 2026 - PT Ruang Raya Indonesia - All Rights Reserved</strong><br><span style="font-style: italic; font-weight: normal;">Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia</span></div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <img src="logo-header-ba.png" alt="Brain Academy Logo">
+            <div class="header-title">Coaching UKRG Fisika SMA</div>
+        </div>
+
+        <div class="content">
+            <h2>B. Mikrometer Sekrup</h2>
+            <p>Mikrometer sekrup digunakan untuk mengukur panjang, ketebalan, atau diameter benda yang sangat kecil dan tipis, seperti ketebalan kertas atau diameter kawat, karena tingkat ketelitiannya yang lebih tinggi dari jangka sorong.</p>
+
+            <h3>1. Komponen Utama dan Pembacaan</h3>
+            <ul>
+                <li><strong>Skala Utama (SU):</strong> Terletak pada silinder tetap (sleeve). Skala bagian atas biasanya menunjukkan angka bulat dalam satuan milimeter (mm) (0, 1, 2, ...), sedangkan skala bagian bawah menunjukkan setengah milimeter (0,5 mm).</li>
+                <li><strong>Skala Nonius/Putar (SN):</strong> Terletak pada silinder putar (thimble). Biasanya terdiri dari 50 skala.</li>
+            </ul>
+
+            <h3>2. Nilai Skala Terkecil (NST)</h3>
+            <p>Satu putaran penuh selubung luar (thimble) yang berisi 50 skala nonius akan menggeser rahang geser sebesar 0,5 mm pada skala utama.</p>
+            <ul>
+                <li>Maka, 1 skala nonius = 0,5 mm / 50 = <strong>0,01 mm</strong>.</li>
+                <li>Jadi, <strong>NST mikrometer sekrup = 0,01 mm</strong>.</li>
+            </ul>
+
+            <h3>3. Ketidakpastian Mutlak dan Pelaporan</h3>
+            <ul>
+                <li>Ketidakpastian untuk pengukuran tunggal: <strong>&Delta;x = &frac12; &times; NST = &frac12; &times; 0,01 mm = 0,005 mm</strong>.</li>
+                <li>Rumus hasil pengukuran: <strong>x<sub>0</sub> = SU + (SN &times; 0,01 mm)</strong>.</li>
+                <li>Penulisan Laporan: <strong>(x<sub>0</sub> &plusmn; 0,005) mm</strong>.</li>
+            </ul>
+
+            <hr style="margin: 2em 0; border: 0; border-top: 1px solid #ccc;">
+
+            <h2>C. Soal Latihan dan Pembahasan</h2>
+
+            <h3>Soal Latihan 1 (Jangka Sorong)</h3>
+            <p>Seorang siswa mengukur diameter luar sebuah pipa menggunakan jangka sorong. Hasil pengukurannya ditunjukkan pada gambar berikut.</p>
+            
+            <!-- Gambar jangka sorong -->
+            <img src="mikro.png" alt="Pengukuran Jangka Sorong" class="content-img">
+
+            <p>Berdasarkan pengukuran tersebut, perhatikan pernyataan-pernyataan berikut:</p>
+            <ol>
+                <li>Skala utama menunjukkan angka 3,1 cm.</li>
+                <li>Nilai Skala Terkecil (NST) jangka sorong tersebut adalah 0,1 mm.</li>
+                <li>Skala nonius yang terbaca adalah 0,4 cm.</li>
+                <li>Ketidakpastian pengukuran tunggal tersebut adalah 0,005 cm.</li>
+                <li>Penulisan laporan hasil pengukuran tunggal adalah (3,140 &plusmn; 0,005) mm.</li>
+            </ol>
+            <p>Pernyataan yang benar ditunjukkan oleh nomor ....</p>
+            <ul class="options">
+                <li>1, 2, dan 3</li>
+                <li>1, 2, dan 4</li>
+                <li>2, 3, dan 4</li>
+                <li>2, 4, dan 5</li>
+                <li>3, 4, dan 5</li>
+            </ul>
+
+            <div class="pembahasan">
+                <span class="pembahasan-title">Pembahasan Soal Latihan 1:</span>
+                <p>Mari kita analisis setiap pernyataan berdasarkan gambar jangka sorong:</p>
+                <ul>
+                    <li><strong>Pernyataan 1 (Benar):</strong> Angka 0 pada skala nonius berada setelah garis 3,1 cm pada skala utama. Maka SU = <strong>3,1 cm</strong>.</li>
+                    <li><strong>Pernyataan 2 (Benar):</strong> Jangka sorong standar sekolah umumnya memiliki NST 0,1 mm atau <strong>0,01 cm</strong>.</li>
+                    <li><strong>Pernyataan 3 (Salah):</strong> Garis ke-4 skala nonius berimpit tegak lurus, sehingga nilai SN = 4 &times; 0,01 cm = <strong>0,04 cm</strong> (bukan 0,4 cm).</li>
+                    <li><strong>Pernyataan 4 (Benar):</strong> Ketidakpastian mutlak pengukuran tunggal adalah &Delta;x = &frac12; &times; NST = &frac12; &times; 0,01 cm = <strong>0,005 cm</strong>.</li>
+                    <li><strong>Pernyataan 5 (Salah):</strong> Hasil ukur x<sub>0</sub> = 3,1 cm + 0,04 cm = 3,14 cm. Aturan penulisan laporan harus mengikuti jumlah desimal ketidakpastiannya (3 desimal): L = <strong>(3,140 &plusmn; 0,005) cm</strong>.</li>
+                </ul>
+                <p>Pernyataan yang benar adalah 1, 2, dan 4.</p>
+                <p><strong>Kunci Jawaban: B</strong></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div style="font-size:9pt; text-align:center; font-family: 'Montserrat', sans-serif;"><strong>Copyright &copy; 2026 - PT Ruang Raya Indonesia - All Rights Reserved</strong><br><span style="font-style: italic; font-weight: normal;">Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia</span></div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <img src="logo-header-ba.png" alt="Brain Academy Logo">
+            <div class="header-title">Coaching UKRG Fisika SMA</div>
+        </div>
+
+        <div class="content">
+            <h3>Soal Latihan 2 (Mikrometer Sekrup)</h3>
+            <p>Seorang praktikan melakukan pengukuran ketebalan sebuah logam menggunakan mikrometer sekrup. Hasil pengukurannya ditunjukkan pada gambar berikut.</p>
+            
+            <!-- Gambar mikrometer sekrup -->
+            <img src="mete.png" alt="Pengukuran Mikrometer Sekrup" class="content-img">
+
+            <p>Siswa tersebut memberikan lima pernyataan terkait pengukuran yang dilakukannya:</p>
+            <ol>
+                <li>Nilai hasil pembacaan skala utama adalah 6,0 mm.</li>
+                <li>Nilai hasil pembacaan skala nonius adalah 3,0 mm.</li>
+                <li>Hasil pengukuran tersebut adalah 6,80 mm.</li>
+                <li>Ketidakpastian mutlak untuk pengukuran tunggal tersebut adalah 0,005 mm.</li>
+                <li>Penulisan laporan hasil pengukuran tunggal adalah (6,800 &plusmn; 0,005) mm.</li>
+            </ol>
+            <p>Pernyataan siswa yang benar ditunjukkan oleh nomor ....</p>
+            <ul class="options">
+                <li>1, 2, dan 3</li>
+                <li>2, 3, dan 4</li>
+                <li>2, 4, dan 5</li>
+                <li>3, 4, dan 5</li>
+                <li>1, 3, dan 5</li>
+            </ul>
+
+            <div class="pembahasan">
+                <span class="pembahasan-title">Pembahasan Soal Latihan 2:</span>
+                <p>Mari kita analisis pembacaan mikrometer sekrup tersebut berdasarkan keterangan gambar:</p>
+                <ul>
+                    <li><strong>Skala Utama (SU):</strong> Terlihat garis angka 5, 6, dan ada satu garis di bagian bawah setelah garis 6 yang sudah terlewati oleh selubung putar. Artinya, SU menunjukkan <strong>6,5 mm</strong>.
+                        <br><em>Cek Pernyataan 1:</em> Menyatakan SU = 6,0 mm. (Pernyataan 1 <strong>Salah</strong>)
+                    </li>
+                    <li><strong>Skala Nonius (SN):</strong> Garis horizontal pada skala utama berimpit tegak lurus dengan angka 30 pada skala putar. 
+                        <br>Nilai SN = 30 &times; NST = 30 &times; 0,01 mm = <strong>0,30 mm</strong>.
+                        <br><em>Cek Pernyataan 2:</em> Menyatakan SN = 3,0 mm. (Pernyataan 2 <strong>Salah</strong>)
+                    </li>
+                    <li><strong>Hasil Pengukuran (x<sub>0</sub>):</strong> x<sub>0</sub> = SU + SN = 6,5 mm + 0,30 mm = <strong>6,80 mm</strong>.
+                        <br><em>Cek Pernyataan 3:</em> Menyatakan hasil = 6,80 mm. (Pernyataan 3 <strong>Benar</strong>)
+                    </li>
+                    <li><strong>Ketidakpastian Mutlak (&Delta;x):</strong> Untuk mikrometer sekrup, &Delta;x = &frac12; &times; NST = &frac12; &times; 0,01 mm = <strong>0,005 mm</strong>.
+                        <br><em>Cek Pernyataan 4:</em> Menyatakan ketidakpastian = 0,005 mm. (Pernyataan 4 <strong>Benar</strong>)
+                    </li>
+                    <li><strong>Penulisan Laporan (L):</strong> L = (x<sub>0</sub> &plusmn; &Delta;x) satuan = <strong>(6,800 &plusmn; 0,005) mm</strong>.
+                        <br><em>Cek Pernyataan 5:</em> Menyatakan (6,800 &plusmn; 0,005) mm. (Pernyataan 5 <strong>Benar</strong>)
+                    </li>
+                </ul>
+                <p>Berdasarkan analisis di atas, pernyataan yang benar adalah nomor <strong>3, 4, dan 5</strong>.</p>
+                <p><strong>Kunci Jawaban: D</strong></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div style="font-size:9pt; text-align:center; font-family: 'Montserrat', sans-serif;"><strong>Copyright &copy; 2026 - PT Ruang Raya Indonesia - All Rights Reserved</strong><br><span style="font-style: italic; font-weight: normal;">Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia</span></div>
+        </div>
+    </div>
+
+</body>
+</html>
